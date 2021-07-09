@@ -1,0 +1,1259 @@
+<!doctype html>
+<html>
+<head>
+  <title>2015726056 Calculator</title>
+  <meta charset="utf-8">
+  <style type="text/css">
+    h1{
+      padding:10px;
+    }
+
+    #calculator{
+      font-size: 0;
+      width: 510px;
+      /* height:1000px; */
+      background-color: #282828;
+      padding: 10px;
+      /* margin: auto; */
+      box-sizing: border-box;
+
+    }
+
+    #latex{
+      width: 490px;
+      height: 150px;
+      background-color:black;
+      border-style:inset;
+      border-width: 2px;
+
+      font: 20px digital;
+      justify-content: flex-end;
+      display: inline-flex;
+      color:red;
+      box-sizing: border-box;
+      overflow:auto;
+      /* word-break: break-all; */
+    }
+
+    #result{
+      width: 490px;
+      height: 35px;
+      background-color:black;
+      border-style:inset;
+      border-width:2px;
+      margin-bottom:10px;
+
+      font: 20px digital;
+      justify-content: flex-end;
+      /* align-items: center; */
+      display: inline-flex;
+      color:red;
+      box-sizing: border-box;
+      word-break: break-all;
+      overflow:auto;
+    }
+    #contents{
+      width: 500px;
+      height: 340px;
+      /* background-color :grey; */
+      display: flex;
+      /* justify-content: center; */
+      flex-wrap:wrap; /*플렉스 박스 감싼다*/
+      /* align-items: center; */
+      flex-direction: column;
+      margin:auto;
+
+
+    }
+    #triMenu{
+      width :1px;
+      display:none;
+      position:absolute;
+      margin: auto;
+    }
+
+    #compareMenu{
+      width :1px;
+      display:none;
+      position: absolute;
+      margin: auto;
+    }
+
+    #functionDefinitionMenu{
+      width :1px;
+      display:none;
+      position: absolute;
+      margin: auto;
+    }
+
+    #functionMenu{
+      width :1px;
+      display:none;
+      position: absolute;
+      margin: auto;
+    }
+    #varianceMenu{
+      width :1px;
+      display:none;
+      position: absolute;
+      margin: auto;
+    }
+    #constantMenu{
+      width :1px;
+      display:none;
+      position: absolute;
+      margin: auto;
+    }
+    #matrixCalMenu{
+      width:1px;
+      display:none;
+      position: absolute;
+    }
+    #arctriMenu{
+      width:1px;
+      display:none;
+      position : absolute;
+    }
+    #matrixBox{
+      width:235px;
+      /* height: :250px; */
+      display: inline-flex;
+      display:none;
+      position: absolute;
+      box-sizing: border-box;
+      background-color: grey;
+      margin: auto;
+    }
+    /* #matrixStoreBox{
+      width:235px;
+      background-color: grey;
+      /* display:none; */
+    /* } */
+
+    #storeBox{
+      width:520px;
+      height: 84px;
+      /* background-color :grey; */
+      display: flex;
+      justify-content: center;
+      flex-wrap:wrap; /*플렉스 박스 감싼다*/
+      align-items: center;
+      flex-direction: column;
+      margin:auto;
+      /* position:relative;
+      top:-840px;
+      left: 10px; */
+      position: absolute;
+      visibility: collapse;
+    }
+
+    #selectedText{
+      display:none;
+    }
+    #parsedText{
+      display:none;
+    }
+
+    #historyBox{
+      overflow: scroll;
+      width:300px;
+      height:400px;
+      background-color: gold;
+      display:none;
+      position: absolute;
+      /* top: -435px;
+      left: 120px; */
+    }
+
+    #helpBox{
+      width:150px;
+      height: 150px;
+      background: Gainsboro;
+      border-style:solid;
+
+      border-color: black;
+      position: absolute;
+      display: none;
+      /* align-items: center; */
+      align-items:center;
+      text-align: center;
+      justify-content: center;
+    }
+
+    #graph{
+      visibility: hidden;
+      position: absolute;
+      width:500px;
+      height:300px;
+      /*  얘는 hidden을 줘야하나봄*/
+    }
+    #graphClose{
+      display:none;
+      width:60px;
+      height:20px;
+      color:red;
+      background : black;
+      text-align: center;
+      position: absolute;
+
+    }
+
+    table{
+      width:100%;
+      border-top:1px solid #444444;
+      border-collapse: collapse;
+    }
+     th, td{
+       width: 100px;
+      border-bottom: 1px solid #444444;
+      padding 10px;
+    }
+
+
+    .key {
+        width: 60px;
+        height: 26px;
+        background-color: #8c8c8c;
+        display: inline-flex;
+        margin: 3px 3px 3px 3px;
+        vertical-align: middle;
+        justify-content: center;
+        align-items: center;
+        padding: 5px 5px 5px 5px;
+        border-radius: 4px;
+        cursor: pointer;
+        /* box-shadow: 0 3px 0 #a1a1a1, 0 2px 5px rgba(0, 0, 0, .75); */
+        font: bold 20px sans-serif;
+    }
+
+    .key.eval-key{
+      height : 150px;
+      width: 70px;
+      background-color: blue;
+      color:white;
+    }
+    .key.erase{
+      height: 68px;
+      width:70px;
+      background: NavajoWhite;
+      color: black;
+    }
+    .key.clear-key{
+      width:70px;
+      color: white;
+      background: red;
+    }
+    .key.help{
+      width:70px;
+      font-size: 13px;
+    }
+    .key.history{
+      height:68px;
+      font-size: 15px;
+      background: gold;
+    }
+    .key.number{
+      background-color:Lavender;
+    }
+
+    .key.paste{
+      font-size :15px;
+      color : orange;
+      display: none;
+    }
+    .key.copy{
+      font-size :15px;
+      color: orange;
+      text-align: center;
+      display: none;
+    }
+
+    .key.box{
+      font-size:15px;
+      color: black ;
+      background: LightBlue;
+      text-align: center;
+    }
+    .key.box.matrix_vector{
+      font-size:18px;
+    }
+    .key.box.matrixCal{
+      height:68px;
+      font-size: 18px;
+    }
+    .key.box.matrix_vector{
+      width : 60px;
+      height: 152px;
+      color: black;
+    }
+    .key.menu.matrix.close{
+      color:red;
+    }
+
+    .key.menu{
+      color:black;
+      background-color: white;
+      width: 40px;
+      height : 10px;
+    }
+    .key.menu.close{
+      color:red;
+    }
+    .key.menu.matrix{
+      color:black;
+      width: 40px;
+      height: 10px;
+      background-color: white;
+    }
+
+    .smallBox{
+      width:40px;
+      height:40px;
+      background-color: white;
+      display: inline-flex;
+      margin: 1px 1px 1px 1px;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      /* display: */
+      /* padding:-1px -1px -1px -1px; */
+      /* margin: auto; */
+      /* font-size: 5px;
+      line-height: 0.5; */
+    }
+    .smallBox.close{
+      width:230px;
+      background-color: cyan;
+      font-size:30px;
+      justify-content: center;
+      box-sizing: border-box;
+    }
+
+    .store{
+      width:100px;
+      height:40px;
+      background-color:cyan;
+      text-align: center;
+      font-size :20px;
+      border-radius: 10px;
+      border:1px solid red;
+    }
+    .store.graph{
+      height:25px;
+      display: none;
+    }
+    .store.data{
+      height:80px;
+    }
+    .history.close{
+      font-size:20px;
+      position :relative;
+      left: 210px;
+      background-color: black;
+      color:white;
+    }
+
+    .key.arc{
+      color:black;
+      background-color: white;
+      width: 40px;
+      height : 10px;
+    }
+    .graph.close{
+      width:40px;
+      height: :10px;
+      color:red;
+    }
+  </style>
+
+  <script src ='math.js' type = 'text/javascript'></script>
+  <script src= 'jquery-3.3.1.js' type='text/javascript'></script>
+  <script src='jquery.jqplot.js' type='text/javascript'></script>
+  <script src='jquery.jqplot.min.js' type='text/javascript'></script>
+  <script src='jqplot.BarRenderer.js' type='text/javascript'></script>
+  <script src='jqplot.pieRenderer.js' type='text/javascript'></script>
+  <script type = "text/javascript">
+    $(document).ready(function(){
+      $(window.document).ready(function(){
+        $(window.document).on("contextmenu", function(event){return false;});
+      });
+
+      var parser = math.parser();
+      var displayValue = '0';
+
+      function allMenuClose(){
+        $('#triMenu').hide();
+        $('#compareMenu').hide();
+        $('#functionDefinitionMenu').hide();
+        $('#constantMenu').hide();
+        $('#functionMenu').hide();
+        $('#varianceMenu').hide();
+        $('#matrixCalMenu').hide();
+        $('#arctriMenu').hide();
+        $('#matrixBox').hide();
+        $('#storeBox').css('visibility','collapse');
+        $('.key.copy').css("display","none");
+        $('.key.paste').css("display","none");
+        $('#historyBox').css("display","none");
+        $('.store.graph').css("display","none");
+        $('#graph').css("visibility","hidden");
+        $('#graphClose').css("display","none");
+        cleanSmallBox();
+      }
+
+      $('#result').text(displayValue);
+
+      $('.key').hover(
+        function(){
+          $(this).css("background", "white");
+        },
+        function(){
+          $(this).css("background", "#8c8c8c");
+        }
+      );
+
+      $('.key.erase').hover(
+        function(){
+          $(this).css("background", "PapayaWhip");
+        },
+        function(){
+          $(this).css("background", "NavajoWhite");
+        }
+      );
+
+      $('.key.number').hover(
+        function(){
+          $(this).css("background", "white");
+        },
+        function(){
+          $(this).css("background", "Lavender");
+        }
+      );
+      $('.key.clear-key').hover(
+        function(){
+          $(this).css("background","Tomato");
+        },
+        function(){
+          $(this).css("background","red");
+        }
+      )
+
+      $('.key.box').hover(
+        function(){
+          $(this).css("background", "LightCyan");
+        },
+        function(){
+          $(this).css("background","LightBlue");
+        }
+      );
+
+      $('.key.eval-key').hover(
+        function(){
+          $(this).css("background", "steelblue");
+        },
+        function(){
+          $(this).css("background", "blue");
+        }
+      );
+
+      $('.key.menu').hover(
+        function(){
+          $(this).css("background","blue");
+        },
+        function(){
+          $(this).css("background","white");
+        }
+      );
+
+      $('.smallBox.close').hover(
+        function(){
+          $(this).css("background", "pink");
+        },
+        function(){
+          $(this).css("background", "cyan");
+        }
+      );
+      $('.store').hover(
+        function(){
+          $(this).css("background", "white");
+        },
+        function(){
+          $(this).css("background", "cyan");
+        }
+      );
+      $('.history.close').hover(
+        function(){
+          $(this).css("background","grey");
+        },
+        function(){
+          $(this).css("background", "black");
+        }
+      );
+
+      $('.key.history').hover(function(){
+        $(this).css("background","PaleGoldenRod");
+      },
+      function(){
+        $(this).css("background", "gold");
+      }
+      );
+
+      $('.history.close').click(function(e){
+        $('#historyBox').css("display","none");
+      });
+
+      $('#latex').click(function(e){
+          var start = window.getSelection().baseOffset;
+          var selectedText = window.getSelection().toString();// 객체로 반환하기 때문에 toString으로 변환
+          if(selectedText.length == 0){
+            var ftext = $('#latex').text();
+            var textLength = $('#latex').text().length;
+            var parse1="";
+            var parse2="";
+            for(var i = 0 ; i < parseInt(start); i++){
+              parse1+=ftext[i];
+            }
+            for(var j = parseInt(start); j < parseInt(textLength); j++){
+              parse2+=ftext[j];
+            }
+            var pasteText = parse1 + $('#selectedText').text() + parse2;
+            $('.pasteText').text(pasteText);
+            $('.key.copy').css("display","none");
+            // document.write(pasteText);
+            $('.key.paste').css("position", "absolute");
+            $('.key.paste').css("top",e.clientY);
+            $('.key.paste').css("left",e.clientX);
+            $('.key.paste').css("display","block");
+            $('#parsedText').text(pasteText);
+          }
+          else{
+            $('#selectedText').text(selectedText);
+            $('#parsedText').text(pasteText);
+            $('.key.paste').css("display","none");
+            $('.key.copy').css("position", "absolute");
+            $('.key.copy').css("top",e.clientY);
+            $('.key.copy').css("left",e.clientX);
+            $('.key.copy').css("display","block");
+
+          }
+        });
+
+      function targetBox(){
+        for(var i=0; i<=4; i++){
+          for(var j=0; j<=4; j++){
+            if($(".smallBox."+i+j).css("background-color") == "rgb(255, 255, 204)"){
+              return i +""+ j;
+            }
+          }
+        }
+      }
+
+      $('.store').click(function(e){
+        var target = targetBox(); // undefined 아니면 값
+        var value =$('.smallBox.'+target).text();
+        if(value!="undefined"){
+          var number = parseInt(value);
+        }
+        if($(this).text() == '+1'){
+          $('.smallBox.'+target).text(number+1);
+        }
+        else if($(this).text() == '+10'){
+          $('.smallBox.'+target).text(number+10);
+        }
+        else if($(this).text() == '+100'){
+          $('.smallBox.'+target).text(number+100);
+        }
+        else if($(this).text() == '-1'){
+          $('.smallBox.'+target).text(number-1);
+        }
+        else if($(this).text() == '-10'){
+          $('.smallBox.'+target).text(number-10);
+        }
+        else if($(this).text() == '-100'){
+          $('.smallBox.'+target).text(number-100);
+        }
+        else if($(this).text() == 'Reset'){
+          for(var i=0; i<5;i++){
+            for(var j=0; j<5;j++){
+              if($('.smallBox.'+i+j).css("background-color") == "rgb(255, 255, 204)"){
+                   $('.smallBox.'+i+j).text(0);
+                 }
+            }
+          }
+        }
+        else if($(this).text() == "All Reset"){
+          for(var i=0; i<5;i++){
+            for(var j=0; j<5;j++){
+              if($('.smallBox.'+i+j).css("background-color") == "rgb(255, 192, 203)"||
+                 $('.smallBox.'+i+j).css("background-color") == "rgb(255, 255, 204)"){
+                   $('.smallBox.'+i+j).text(0);
+                 }
+            }
+          }
+        }
+        else if($(this).text() == "Store"){
+          var matrixText="";
+          var line = 0;
+          for(var i=0; i<5; i++){
+            if($('.smallBox.'+i+'0').css("background-color") == "rgb(255, 192, 203)"||
+               $('.smallBox.'+i+'0').css("background-color") == "rgb(255, 255, 204)"){
+                 matrixText += "[";
+                 line++;
+               }
+            for(var j=0; j<5; j++){
+              if($('.smallBox.'+i+j).css("background-color") == "rgb(255, 192, 203)"||
+                 $('.smallBox.'+i+j).css("background-color") == "rgb(255, 255, 204)"){
+                   matrixText += $('.smallBox.'+i+j).text() + ",";
+                 }
+            }
+
+            if($('.smallBox.'+i+'0').css("background-color") == "rgb(255, 192, 203)"||
+               $('.smallBox.'+i+'0').css("background-color") == "rgb(255, 255, 204)"){
+                 matrixText = matrixText.slice(0,-1);
+                 matrixText += "], ";
+               }
+          }
+        matrixText = matrixText.slice(0,-2);
+        if(line>1)
+          matrixText = "[" + matrixText +"]";
+        displayValue+=matrixText;
+        $('#latex').text(displayValue);
+        allMenuClose();
+        }
+
+        else if($(this).attr("class").split(" ")[1] == "graph"){
+
+          var column = 0;
+          var row = 0;
+          for(var i=0; i<5; i++){
+            if($('.smallBox.'+i+'0').css("background-color") == "rgb(255, 192, 203)"||
+               $('.smallBox.'+i+'0').css("background-color") == "rgb(255, 255, 204)"){
+                 column++;
+               }
+            for(var j=0; j<5; j++){
+              if($('.smallBox.'+i+j).css("background-color") == "rgb(255, 192, 203)"||
+                 $('.smallBox.'+i+j).css("background-color") == "rgb(255, 255, 204)"){
+                   row++;
+                 }
+            }
+        }
+        row = row/column;
+        var arr = new Array(column);
+        for(var i=0; i<column; i++){
+          arr[i]= new Array(row);
+        }
+
+        for(var i=0; i<column; i++){
+          for(var j=0; j<row; j++){
+            arr[i][j]=parseInt($('.smallBox.'+i+j).text());
+          }
+        }
+
+        $('#graph').css("visibility","visible");
+        $('#graph').css("top",e.clientY+70);
+        $('#graph').css("left",e.clientX-500);
+        $('#graphClose').css("top",e.clientY+80);
+        $('#graphClose').css("left",e.clientX);
+        $('#graphClose').show();
+        $('#graph').empty(); //캔버스 초기화
+        if($(this).text()=="Line Graph"){
+          $('#graph').jqplot('graph',[arr]); //꺾은선
+        }
+        else if($(this).text()=="Box Graph"){
+          $('#graph').jqplot([arr], {seriesDefaults:{renderer:$.jqplot.BarRenderer}}); // 막대
+        }
+        else if($(this).text() =="Pi Graph"){
+          $('#graph').jqplot([arr], {seriesDefaults:{renderer:$.jqplot.PieRenderer}}); // <
+        }
+
+        }
+      });
+
+
+      $('#graphClose').click(function(e){
+        $('#graph').css("visibility","hidden");
+        $('#graphClose').css("display","none");
+      });
+
+      // 배열 박스 색깔
+      function matrixBoxHover(){
+        $('.smallBox').hover(function(){
+            var className =$(this).attr('class').split(" ")[0];
+            var column = $(this).attr('class').split(" ")[1].split('')[0];
+            var row = $(this).attr('class').split(" ")[1].split('')[1];
+
+            for(var i=0; i<=column; i++){
+              for(var j=0; j<=row; j++){
+                $("."+className+"."+i+j).css("background","pink");
+              }
+            }
+          },
+          function(){
+            var className =$(this).attr('class').split(" ")[0];
+            var column = $(this).attr('class').split(" ")[1].split('')[0];
+            var row = $(this).attr('class').split(" ")[1].split('')[1];
+            for(var i=0; i<=column; i++){
+              for(var j=0; j<=row; j++){
+                $("."+className+"."+i+j).css("background","white");
+              }
+            }
+          }
+        );
+      }
+
+      function matrixBoxClean(){
+        for(var i=0; i<=4; i++){
+          for(var j=0; j<=4; j++){
+            $(".smallBox."+i+j).css("background","white");
+          }
+        }
+      }
+
+      function matrixBoxOriginalSize(){
+        $('#matrixBox').clearQueue().animate({height:265, width:235});
+        $('.smallBox').clearQueue().animate({height:40,width:40});
+        $('.smallBox.close').clearQueue().animate({width:235});
+      }
+
+      function cleanSmallBox(){
+        $('.smallBox').css("background", "white");
+        $('.smallBox.close').css("background","cyan");
+        $('.smallBox').html('&nbsp');
+        $('.smallBox.close').text('close');
+      }
+
+      function pinkColor(){
+        for(var i=0; i<5; i++){
+          for(var j=0; j<5; j++){
+            if($(".smallBox."+i+j).css("background-color") != "rgb(255, 255, 255)"){
+              $(".smallBox."+i+j).css("background-color","pink");
+            }
+          }
+        }
+      }
+
+      $('#history').on("click", ".reuse", function(){
+        displayValue = $(this).parent().parent().find('td').eq(0).text();
+        $('#latex').text(displayValue);
+      });
+
+      $('.smallBox').click(function(e){
+        if($(this).text() =='close'){
+          matrixBoxClean();
+          matrixBoxOriginalSize();
+          allMenuClose();
+          return;
+        }
+        var className =$(this).attr('class').split(" ")[0];
+        var column = $(this).attr('class').split(" ")[1].split('')[0];
+        var row = $(this).attr('class').split(" ")[1].split('')[1];
+
+        if($(".smallBox.00").html()== "&nbsp;"){
+          for(var i=0; i<=column; i++){
+            for(var j=0; j<=row; j++){
+              $("."+className+"."+i+j).text(0);
+            }
+          }
+        }
+
+        $('.smallBox').off("mouseenter mouseleave");
+        $('#matrixBox').clearQueue().animate({height:480, width:435});
+        $('.smallBox').clearQueue().animate({height:80,width:80});
+        $('.smallBox.close').clearQueue().animate({height:50,width:430});
+
+        if($('#storeBox').css('visibility') == 'visible'){
+            pinkColor();
+            if($(this).css("background-color") == "rgb(255, 192, 203)"){
+              $(this).css("background-color", "rgb(255, 255, 204)");
+            }
+        }
+        $('#storeBox').css('visibility','visible');
+        if(row<2){
+          $('.store.graph').show();
+        }
+
+
+    });
+
+
+  $('.key.arc').hover(function(){
+      $(this).css("background","blue");
+    },
+    function(){
+        $(this).css("background","white");
+    });
+    $('.key.menu.trifunction').mousedown(function(e){
+      if(e.which==3){
+        $('#arctriMenu').css("top", parseInt($('#triMenu').css("top")));
+        $('#arctriMenu').css("left",parseInt($('#triMenu').css("left")) + 50);
+        $('#arctriMenu').show();
+      }
+    });
+
+
+      $('.key').each(function(index,key){
+        $(this).click(function(e){
+          if(displayValue =='0')
+            displayValue='';
+
+          if($('.key').css("cursor")=="help"){
+            var helptext = $(this).text();
+            if($(this).text()=="도움말 끄기"){
+              $('.key').css("cursor","default");
+              $('#helpBox').css("display","none");
+              $('.key.help').text("도움말");
+              return;
+            }
+            $('#helpBox').css("top", e.clientY);
+            $('#helpBox').css("left",e.clientX);
+            $('#helpBox').css("display","flex");
+            if(helptext == 'EV'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 식을 계산해 줍니다.");
+            }
+            else if(helptext == 'CL'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 수식을 초기화합니다.");
+            }
+            else if(helptext == '연산기록'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 지금까지 계산한 결과를 보여주고 원한다면 복사합니다.");
+            }
+            else if(helptext == '행렬 벡터 만들기'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 원하는 크기(최대 5 * 5)의 배열을 생성하고 원하는 값을 지정합니다.  ");
+            }
+            else if(helptext == '삼각함수'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 각의 크기를 삼각비로 나타내는 함수(sin, cos, tan)이며 ( )사이에 rad값이 들어감 ex) cos(pi/3)");
+            }
+            else if(helptext == '행렬 벡터 연산'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 행렬을 통해 행렬식(det), 내적(dot), 외적(cross), 역행렬(inv)를 계산합니다.");
+            }
+            else if(helptext == '함수선언'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 사용자가 직접 함수를 정의합니다. ex) f(x) = x + 2;");
+            }
+            else if(helptext == '변수'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 함수 선언시 사용되는 변수(x, y, z)를 지정합니다. ex) f(x,y) = x + y;" );
+            }
+            else if(helptext == '함수'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 지수, 로그, 루트 계산함수입니다. ex) exp(1) log10(100) sqrt(100)");
+            }
+            else if(helptext == '상수'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 원주율 pi = 3.141592, 자연상수 e");
+            }
+            else if(helptext == '비교연산'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 값의 대소를 비교하고 참 거짓을 출력합니다. ex) 1 < 2");
+            }
+            else if(helptext == 'det'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 정방행렬의 수를 대응시키는 함수 ex) det([[4,10],[10,9]])");
+            }
+            else if(helptext == 'cross'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 벡터의 외적을 계산합니다. ex) cross([1,2,3], [4,5,6])");
+            }
+            else if(helptext == 'trans'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 전치행렬을 계산합니다. ex) transpose([[1,2,3], [4,5,6]])");
+            }
+            else if(helptext == 'dot'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 벡터의 내적을 계산합니다. ex) dot([1,2,3], [4,5,6])");
+            }
+            else if(helptext == 'inv'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 행렬의 역행렬을 계산합니다.. ex) inv([[1,2],[3,4]])");
+            }
+            else if($(this).attr('class') == "key operation def"){
+              $('#helpBox').text("'"+ $(this).text() + "' : 함수를 선언할 때 사용됩니다. ex) f(x) = x + 2;");
+            }
+            else if(helptext == ';'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 함수 선언의 마지막에 사용됩니다. ex) f(x) = x + 2;");
+            }
+            else if(helptext == 'i'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 복소수를 표현합니다. ex) 2i+1");
+            }
+            else if(helptext == '^'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 수의 n 제곱을 표현합니다. ex) 2^3");
+            }
+            else if(helptext == ':'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 범위로 배열을 표현하고자 할 때 사용 ex) 1:10");
+            }
+            else if($(this).attr('class') == 'key erase'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 수식의 값을 한칸 지웁니다.");
+            }
+            else if(helptext == '1'||helptext == '2'||helptext =='3'||helptext =='4'||helptext =='5'||helptext =='6'||helptext =='7'||helptext =='8'||helptext =='9'||helptext =='0'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 자연수입니다.");
+            }
+            else if(helptext == '(' || helptext == ')'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 함수를 정의시 변수를 감쌀 때 쓰입니다. ex) f(x), cos(0) ");
+            }
+            else if(helptext == '[' || helptext == ']'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 행렬 또는 벡터를 표현할 때 쓰입니다. ex) [1,2]");
+            }
+            else if(helptext == ','){
+              $('#helpBox').text("'"+ $(this).text() + "' : 행렬 또는 벡터의 요소를 구분합니다. ex) [1,2]");
+            }
+            else if(helptext == '.'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 소숫점 표현시 사용 됩니다. ex) 3.141592");
+            }
+            else if(helptext == '+'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 덧셈을 합니다. ex) 1+2, [1,2]+[3,4]");
+            }
+            else if(helptext == '-'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 뺄셈을 합니다. ex) 1-2, [1,2]-[3,4]");
+            }
+            else if(helptext == '*'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 곱셈을 합니다. ex) 1*2");
+            }
+            else if(helptext == '/'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 나눗셈을 계산합니다. ex) 1/2");
+            }
+            else if(helptext == '%'){
+              $('#helpBox').text("'"+ $(this).text() + "' : 나머지 연산을 합니다. ex) 1%2");
+            }
+
+
+            return;
+          }
+
+          if($(this).text() =='EV'){
+            try{
+              displayValue=parser.eval(displayValue).toString();
+              var tokens = displayValue.split('');
+              if(tokens[0]=='function'){
+                displayValue = tokens[0];
+              }
+              $('#result').text(displayValue);
+              $('#history').append($('<tr>').append(
+                $('<td>').append($('#latex').text()),
+                $('<td>').append($('#result').text()),
+                $('<td>').append(
+                  $('<a>').prop('href', '#').addClass('reuse').append('재사용')
+                )
+              ));
+
+              //값을 히스토리에 저장
+              displayValue='0';
+            } catch(e){
+              displayValue = '0';
+              if(displayValue != 'function'){
+                $('#latex').text(e);
+              }
+            }
+          }
+          else{
+            if($(this).text() == 'CL'){
+              displayValue ='0';
+              $('#result').text(displayValue);
+              allMenuClose();
+              $('#latex').text("");
+            }
+            else if($(this).text() == '삼각함수'){
+              allMenuClose();
+              $('#triMenu').css("top",e.clientY);
+              $('#triMenu').css("left",e.clientX);
+              $('#triMenu').show();
+              $('#latex').text(displayValue);
+            }
+            else if($(this).text() == '비교연산'){
+              allMenuClose();
+              $('#compareMenu').css("top",e.clientY);
+              $('#compareMenu').css("left",e.clientX);
+              $('#compareMenu').show();
+              $('#latex').text(displayValue);
+            }
+            else if($(this).text() == '함수선언'){
+              allMenuClose();
+              $('#functionDefinitionMenu').css("top",e.clientY);
+              $('#functionDefinitionMenu').css("left",e.clientX);
+              $('#functionDefinitionMenu').show();
+              $('#latex').text(displayValue);
+            }
+            else if($(this).text() == '함수'){
+              allMenuClose();
+              $('#functionMenu').css("top",e.clientY);
+              $('#functionMenu').css("left",e.clientX);
+              $('#functionMenu').show();
+              $('#latex').text(displayValue);
+            }
+            else if($(this).text() == '상수'){
+              allMenuClose();
+              $('#constantMenu').css("top",e.clientY);
+              $('#constantMenu').css("left",e.clientX);
+              $('#constantMenu').show();
+              $('#latex').text(displayValue);
+            }
+            else if($(this).text() == '변수'){
+              allMenuClose();
+              $('#varianceMenu').css("top",e.clientY);
+              $('#varianceMenu').css("left",e.clientX);
+              $('#varianceMenu').show();
+              $('#latex').text(displayValue);
+            }
+            else if($(this).text() =="행렬 벡터 만들기"){
+              allMenuClose();
+              matrixBoxHover();
+              $('#matrixBox').css("top",e.clientY);
+              $('#matrixBox').css("left",e.clientX);
+              $('#storeBox').css("top",e.clientY-80);
+              $('#storeBox').css("left",e.clientX-40);
+              $('#matrixBox').show();
+              $('#storeBox').show();
+            }
+            else if($(this).text() =="행렬 벡터 연산"){
+              allMenuClose();
+              $('#matrixCalMenu').css("top",e.clientY);
+              $('#matrixCalMenu').css("left",e.clientX);
+              $('#matrixCalMenu').show();
+            }
+            else if($(this).attr('class') == 'key erase'){
+              allMenuClose();
+              displayValue = displayValue.slice(0,-1);
+              $('#latex').text(displayValue);
+            }
+            else if($(this).text() == "fac"){
+              displayValue +="factorial";
+              $('#latex').text(displayValue);
+            }
+            else if($(this).text() == "comb"){
+              displayValue += "combinations";
+              $('#latex').text(displayValue);
+            }
+            else if($(this).text() == "permu"){
+              displayValue += "permutations";
+              $('#latex').text(displayValue);
+            }
+            else if($(this).text() == "trans"){
+              displayValue += "transpose";
+              $('#latex').text(displayValue);
+            }
+
+            else if($(this).text() == "복사"){
+              allMenuClose();
+              //div 선언해서 파싱한 값 넣고 출력하자.
+              $('.key.copy').css("display","none");
+            }
+            else if($(this).text() =="붙여넣기"){
+              allMenuClose();
+              if($('#parsedText').text() != "undefined"){
+                displayValue = $('#parsedText').text();
+                $('#latex').text(displayValue);
+              }
+                $('.key.paste').css("display","none");
+
+            }
+            else if($(this).text()=="연산기록"){
+              allMenuClose();
+              $('#historyBox').css("top",e.clientY);
+              $('#historyBox').css("left",e.clientX-180);
+              $('#historyBox').show();
+            }
+            else if($(this).text()=="도움말"){
+              $('.key').css("cursor","help");
+              $('.key.help').text("도움말 끄기");
+            }
+            else if(e.which==3){
+              document.write("hello");
+            }
+            else{
+              if($(this).attr('class')=="key operation def"){
+                displayValue +="=";
+                $('#latex').text(displayValue);
+              }
+              else if($(this).text() != 'close'){
+                displayValue +=$(this).text();
+                $('#latex').text(displayValue);
+              }
+              allMenuClose();
+            }
+          }
+          // e.preventDefault()
+        })
+      });
+    });
+
+  </script>
+</head>
+
+<body>
+  <h1>
+    2015726056 calculator
+  </h1>
+
+  <div id="calculator">
+    <div id="latex"></div>
+    <div id="result"></div>
+    <div id="contents">
+      <span class = "key copy">복사</span>
+      <span class = "key paste">붙여넣기</span>
+
+      <span class = "key box matrix_vector">행렬 벡터 만들기</span>
+      <span class="key parenthesis">(</span>
+      <span class="key parenthesis">)</span>
+      <span class="key parenthesis">[</span>
+      <span class="key parenthesis">]</span>
+
+      <span class = "key box trigonometrical">삼각함수</span>
+      <span class = "key box comparison">비교연산</span>
+      <span class = "key box matrixCal">행렬 벡터 연산</span>
+      <span class="key number">1</span>
+      <span class="key number">4</span>
+      <span class="key number">7</span>
+      <span class="key marks">,</span>
+
+      <span class = "key box function definition">함수선언</span>
+      <span class = "key box constant">상수</span>
+      <span class="key operation def">&#x225D;</span>
+      <span class="key symbol-key">i</span>
+      <span class="key number">2</span>
+      <span class="key number">5</span>
+      <span class="key number">8</span>
+      <span class="key number">0</span>
+
+      <span class = "key box variance">변수</span>
+      <span class="key box function">함수</span>
+      <span class="key marks">;</span>
+      <span class="key operation">^</span>
+      <span class="key number">3</span>
+      <span class="key number">6</span>
+      <span class="key number">9</span>
+      <span class="key marks">.</span>
+
+      <span class="key history">연산기록</span>
+      <span class="key marks">:</span>
+      <span class="key operation">%</span>
+      <span class="key operation">+</span>
+      <span class="key operation">-</span>
+      <span class="key operation">*</span>
+      <span class="key operation">/</span>
+
+
+
+      <span class="key help">도움말</span>
+      <span class="key clear-key">CL</span>
+      <span class="key erase">&#8592;</span>
+      <span class="key eval-key">EV</span>
+    </div>
+  </div>
+  <div id = "matrixCalMenu">
+    <span class="key menu matrix">det</span>
+    <span class="key menu matrix">inv</span>
+    <span class="key menu matrix">trans</span>
+    <span class="key menu matrix">cross</span>
+    <span class="key menu matrix">dot</span>
+    <span class="key menu matrix close">close</span>
+  </div>
+
+  <div id = "arctriMenu">
+    <span class = "key arc sin">asin</span>
+    <span class = "key arc cos">acos</span>
+    <span class = "key arc tan">atan</span>
+  </div>
+
+  <div id = "triMenu">
+    <span class="key menu trifunction">sin</span>
+    <span class="key menu trifunction">cos</span>
+    <span class="key menu trifunction">tan</span>
+    <span class="key menu trifunction close">close</span>
+  </div>
+
+  <div id = "compareMenu">
+    <span class="key menu compare Operation"><</span>
+    <span class="key menu compare Operation">></span>
+    <span class="key menu compare Operation"><=</span>
+    <span class="key menu compare Operation">>=</span>
+    <span class="key menu compare Operation">==</span>
+    <span class="key menu compare Operation">!=</span>
+    <span class="key menu compare Operation close">close</span>
+  </div>
+
+  <div id ="functionDefinitionMenu">
+    <span class="key menu symbol-key">f</span>
+    <span class="key menu symbol-key">g</span>
+    <span class="key menu symbol-key close">close</span>
+  </div>
+
+  <div id ="varianceMenu">
+    <span class="key menu symbol-key">x</span>
+    <span class="key menu symbol-key">y</span>
+    <span class="key menu symbol-key">z</span>
+    <span class="key menu symbol-key close">close</span>
+  </div>
+
+  <div id = "functionMenu">
+    <span class="key menu function-key">exp</span>
+    <span class="key menu function-key">log</span>
+    <span class="key menu function-key">sqrt</span>
+    <span class="key menu function-key">fac</span>
+    <span class="key menu function-key">comb</span>
+    <span class="key menu function-key">permu</span>
+    <span class="key menu function-key close">close</span>
+  </div>
+
+  <div id ="constantMenu">
+    <span class="key menu symbol-key">pi</span>
+    <span class="key menu symbol-key">e</span>
+    <span class="key menu symbol-key close">close</span>
+  </div>
+
+  <div id ="matrixBox">
+    <span class ="smallBox 00">&nbsp;</span>
+    <span class ="smallBox 01">&nbsp;</span>
+    <span class ="smallBox 02">&nbsp;</span>
+    <span class ="smallBox 03">&nbsp;</span>
+    <span class ="smallBox 04">&nbsp;</span>
+    <span class ="smallBox 10">&nbsp;</span>
+    <span class ="smallBox 11">&nbsp;</span>
+    <span class ="smallBox 12">&nbsp;</span>
+    <span class ="smallBox 13">&nbsp;</span>
+    <span class ="smallBox 14">&nbsp;</span>
+    <span class ="smallBox 20">&nbsp;</span>
+    <span class ="smallBox 21">&nbsp;</span>
+    <span class ="smallBox 22">&nbsp;</span>
+    <span class ="smallBox 23">&nbsp;</span>
+    <span class ="smallBox 24">&nbsp;</span>
+    <span class ="smallBox 30">&nbsp;</span>
+    <span class ="smallBox 31">&nbsp;</span>
+    <span class ="smallBox 32">&nbsp;</span>
+    <span class ="smallBox 33">&nbsp;</span>
+    <span class ="smallBox 34">&nbsp;</span>
+    <span class ="smallBox 40">&nbsp;</span>
+    <span class ="smallBox 41">&nbsp;</span>
+    <span class ="smallBox 42">&nbsp;</span>
+    <span class ="smallBox 43">&nbsp;</span>
+    <span class ="smallBox 44">&nbsp;</span>
+    <span class ="smallBox close">close</span>
+  </div>
+
+  <div id ="storeBox">
+    <span class ="store +1">+1</span>
+    <span class ="store -1">-1</span>
+    <span class ="store +10">+10</span>
+    <span class ="store -10">-10</span>
+    <span class ="store +100">+100</span>
+    <span class ="store -100">-100</span>
+    <span class ="store clear">Reset</span>
+    <span class ="store allClear">All Reset</span>
+    <span class ="store data">Store</span>
+    <span class ="store graph line">Line Graph</span>
+    <span class ="store graph box">Box Graph</span>
+    <span class ="store graph pi">Pi Graph</span>
+  </div>
+
+  <div id="selectedText">undefined</div>
+  <div id="parsedText"></div>
+
+  <div id="historyBox">
+    <table id="history">
+      <thead>
+        <tr>
+          <th>수식</th>
+          <th>결과</th>
+          <th>재사용</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <span class ="history close">close</span>
+  </div>
+
+  <div id="helpBox"></div>
+
+  <div id="graph">
+  </div>
+  <div id ="graphClose">close</div>
+
+</body>
+</html>
